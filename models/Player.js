@@ -1,16 +1,16 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const player = new Schema(
+const Player = new Schema(
     {
-        id:{type:Number, required:true},
-        name: { type: String, required: true },
-        dob: { type: String, required: true },
-        battinghand: { type: String, required: true },
-        bowlingskill: { type: String, required: true },
-        country: { type: String, required: true },
+        id:{type:String, required:false},
+        name: { type: String, required: false },
+        dob: { type: String, required: false },
+        battinghand: { type: String, required: false },
+        bowlingskill: { type: String, required: false },
+        country: { type: String, required: false },
     },
-    {collection:'player'}
+    {collection:'Player'}
 )
 
-module.exports = mongoose.model('player',player)
+module.exports = mongoose.model('Player',Player)

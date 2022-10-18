@@ -1,6 +1,7 @@
-const match = require('../models/match')
 
-creatematch = (req, res) => {
+const Match = require('../models/Match')
+
+createMatch = (req, res) => {
     const body = req.body
     console.log(body)
     if (!body) {
@@ -10,30 +11,30 @@ creatematch = (req, res) => {
         })
     }
 
-    const item = new match(body)
+    const Match = new Match(body)
 
-    if (!item) {
+    if (!Match) {
         return res.status(400).json({ success: false, error: err })
     }
 
-    item
+    Match
         .save()
         .then(() => {
             return res.status(201).json({
                 success: true,
-                id: match._id,
-                message: 'match created!',
+                id: Match._id,
+                message: 'Match created!',
             })
         })
         .catch(error => {
             return res.status(400).json({
                 error,
-                message: 'match created!',
+                message: 'Match not created!',
             })
         })
 }
 
-updatematch = async (req, res) => {
+updateMatch = async (req, res) => {
     const body = req.body
 
     if (!body) {
@@ -43,99 +44,99 @@ updatematch = async (req, res) => {
         })
     }
 
-    match.findOne({ _id: req.params.id }, (err, match) => {
+    Match.findOne({ _id: req.params.id }, (err, Match) => {
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'match not found!',
+                message: 'Match not found!',
             })
         }
-        match.match_ID = body.match_ID
-        match.match_Date = body.match_Date 
-        match.Team_Name_Id= body.Team_Name_Id
-        match.Opponent_Team_ID= body.Opponent_Team_ID
-        match.Season_ID= body.Season_ID
-        match.Venue_Name= body.Venue_Name
-        match.Toss_Winner_Id= body.Toss_Winner_Id
-        match.Toss_Decision= body.Toss_Decision
-        match.Is_Superover= body.Is_Superover
-        match.Is_Result= body.Is_Result 
-        match.Is_DuckWorthLewis= body.Is_DuckWorthLewis
-        match.Win_Type= body.Win_Type
-        match.Won_By= body.Won_By
-        match.match_Winner_Id= body.match_Winner_Id 
-        match.Man_of_the_match= body.Man_of_the_match
-        match.First_Umpire_Id= body.First_Umpire_Id
-        match.Second_Umpire_Id= body.Second_Umpire_Id
-        match.City_Name= body.City_Name 
-        match.Host_Country= body.Host_Country
-        match
+        Match.Match_ID = body.Match_ID
+        Match.Match_Date = body.Match_Date 
+        Match.Team_Name_Id= body.Team_Name_Id
+        Match.Opponent_Team_ID= body.Opponent_Team_ID
+        Match.Season_ID= body.Season_ID
+        Match.Venue_Name= body.Venue_Name
+        Match.Toss_Winner_Id= body.Toss_Winner_Id
+        Match.Toss_Decision= body.Toss_Decision
+        Match.Is_Superover= body.Is_Superover
+        Match.Is_Result= body.Is_Result 
+        Match.Is_DuckWorthLewis= body.Is_DuckWorthLewis
+        Match.Win_Type= body.Win_Type
+        Match.Won_By= body.Won_By
+        Match.Match_Winner_Id= body.Match_Winner_Id 
+        Match.Man_of_the_Match= body.Man_of_the_Match
+        Match.First_Umpire_Id= body.First_Umpire_Id
+        Match.Second_Umpire_Id= body.Second_Umpire_Id
+        Match.City_Name= body.City_Name 
+        Match.Host_Country= body.Host_Country
+        Match
             .save()
             .then(() => {
                 return res.status(200).json({
                     success: true,
-                    id: match._id,
-                    message: 'match updated!',
+                    id: Match._id,
+                    message: 'Match updated!',
                 })
             })
             .catch(error => {
                 return res.status(404).json({
                     error,
-                    message: 'match updated!',
+                    message: 'Match not updated!',
                 })
             })
     })
 }
 
-deletematch = async (req, res) => {
-    await match.findOneAndDelete({ _id: req.params.id }, (err, match) => {
+deleteMatch = async (req, res) => {
+    await Match.findOneAndDelete({ _id: req.params.id }, (err, Match) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
 
-        if (!match) {
+        if (!Match) {
             return res
                 .status(404)
-                .json({ success: false, error: `match not found` })
+                .json({ success: false, error: `Match not found` })
         }
 
-        return res.status(200).json({ success: true, data: match})
+        return res.status(200).json({ success: true, data: Match })
     }).catch(err => console.log(err))
 }
 
-getmatchById = async (req, res) => {
-    await match.findOne({ _id: req.params.id }, (err, match) => {
+getMatchById = async (req, res) => {
+    await Match.findOne({ _id: req.params.id }, (err, Match) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
 
-        if (!match) {
+        if (!Match) {
             return res
                 .status(404)
-                .json({ success: false, error: `match not found` })
+                .json({ success: false, error: `Match not found` })
         }
-        return res.status(200).json({ success: true, data: match})
+        return res.status(200).json({ success: true, data: Match })
     }).catch(err => console.log(err))
 }
 
-getmatch = async (req, res) => {
-    await match.find({}, (err, match) => {
+getMatch = async (req, res) => {
+    await Match.find({}, (err, Match) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!match.length) {
+        if (!Match.length) {
             return res
                 .status(404)
-                .json({ success: false, error: `match not found` })
+                .json({ success: false, error: `Match not found` })
         }
-        return res.status(200).json({ success: true, data:match })
+        return res.status(200).json({ success: true, data: Match })
     }).catch(err => console.log(err))
 }
 
 module.exports = {
-    creatematch,
-    updatematch,
-    deletematch,
-    getmatch,
-    getmatchById,
+    createMatch,
+    updateMatch,
+    deleteMatch,
+    getMatch,
+    getMatchById,
 }
